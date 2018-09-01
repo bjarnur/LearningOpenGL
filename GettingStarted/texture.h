@@ -11,7 +11,7 @@ class Texture
 		Texture();
 
 		//Class functions
-		void load_texture(const char * file_path);
+		void load_texture(unsigned char* image, int t_width, int t_height, int nr_channels);
 		void bind() const;
 
 		//Class variables

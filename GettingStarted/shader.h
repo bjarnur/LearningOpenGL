@@ -17,6 +17,7 @@ class Shader
 		unsigned int ID;
 
 		// constructor reads and builds the shader
+		Shader() {};
 		Shader(const GLchar* vertexPath, const GLchar* fragmentPath);
 
 		// use/activate the shader

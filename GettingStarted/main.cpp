@@ -14,6 +14,7 @@
 #include "shader.h"
 #include "texture.h"
 #include "mouse_inputs.h"
+#include "resource_manager.h"
 
 
 /*************************\
@@ -129,7 +130,7 @@ int main()
 	}
 	
 	//Configure shader program used by OpenGL
-	Shader shader_program = Shader("shaders\\vertex_shader.txt", "shaders\\fragment_shader.txt");		
+	Shader shader_program = ResourceManager::LoadShader("shaders\\vertex_shader.txt", "shaders\\fragment_shader.txt", "shader1");		
 	Camera camera(glm::vec3(0.0, 0.0, 3.0), glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0));
 	
 	shader_program.use();
@@ -153,13 +154,10 @@ int main()
 	glEnableVertexAttribArray(1);	
 	
 	//Loading up textures	
-	Texture tex1, tex2;
-	tex1.load_texture("textures\\container.jpg");
-	tex2.load_texture("textures\\awesomeface.png");
+	Texture tex1 = ResourceManager::LoadTexture("textures\\container.jpg", false, "texture1");
+	Texture tex2 = ResourceManager::LoadTexture("textures\\awesomeface.png", true, "texture2");
 	shader_program.setInt("texture1", 0); // uniform texture1 has value 0
-	shader_program.setInt("texture2", 1); // uniform texture2 has balue 1
-	
-
+	shader_program.setInt("texture2", 1); // uniform texture2 has balue 1	
 
 	//Enable z-buffer
 	glEnable(GL_DEPTH_TEST);
@@ -276,6 +274,7 @@ GLFWwindow * initialize_window()
 	return window;
 }
 
+//Old stuff, travel through space in 3d
 void process_input(GLFWwindow * window, Camera & camera)
 {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
