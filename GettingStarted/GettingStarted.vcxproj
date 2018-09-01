@@ -120,16 +120,19 @@
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="glad.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="shader.cpp" />
+    <ClCompile Include="texture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.h" />
     <ClInclude Include="mouse_inputs.h" />
     <ClInclude Include="shader.h" />
     <ClInclude Include="stb_image.h" />
+    <ClInclude Include="texture.h" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="fragment_shader.txt" />
-    <Text Include="vertex_shader.txt" />
+    <Text Include="shaders\fragment_shader.txt" />
+    <Text Include="shaders\vertex_shader.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

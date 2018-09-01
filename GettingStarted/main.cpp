@@ -12,6 +12,7 @@
 
 #include "camera.h"
 #include "shader.h"
+#include "texture.h"
 #include "mouse_inputs.h"
 
 
@@ -101,10 +102,6 @@ Configures scene and initializes window */
 GLFWwindow * initialize_window();
 
 /**
-Initializes and configures texture, returns texture handle */
-unsigned int load_texture(const char * file_path, bool use_alpha);
-
-/**
 Handles input from user, should be called for each frame */
 void process_input(GLFWwindow * window, Camera & camera);
 
@@ -155,11 +152,14 @@ int main()
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
 	glEnableVertexAttribArray(1);	
 	
-	//Loading up textures
-	unsigned int tex1 = load_texture("textures\\container.jpg", false);
-	unsigned int tex2 = load_texture("textures\\awesomeface.png", true);	
+	//Loading up textures	
+	Texture tex1, tex2;
+	tex1.load_texture("textures\\container.jpg");
+	tex2.load_texture("textures\\awesomeface.png");
 	shader_program.setInt("texture1", 0); // uniform texture1 has value 0
 	shader_program.setInt("texture2", 1); // uniform texture2 has balue 1
+	
+
 
 	//Enable z-buffer
 	glEnable(GL_DEPTH_TEST);
@@ -182,9 +182,9 @@ int main()
 
 		//Bind relevant textures
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, tex1);
+		tex1.bind();
 		glActiveTexture(GL_TEXTURE1);
-		glBindTexture(GL_TEXTURE_2D, tex2);
+		tex2.bind();
 			
 		//Setting up transformation matrices
 		glm::mat4 view = glm::lookAt(
@@ -274,42 +274,6 @@ GLFWwindow * initialize_window()
 	glfwSetScrollCallback(window, scroll_callback);
 	
 	return window;
-}
-
-unsigned int load_texture(const char * file_path, bool use_alpha)
-{
-	unsigned char * data;
-	unsigned int texture;
-	int width, height, nrChannels;
-
-	glGenTextures(1, &texture);
-	glBindTexture(GL_TEXTURE_2D, texture);
-
-	// set the texture wrapping/filtering options (on the currently bound texture object)
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-	// load and generate the texture
-	data = stbi_load(file_path, &width, &height, &nrChannels, 0);
-	if (data)
-	{
-		if(use_alpha)
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-		else
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-
-		glGenerateMipmap(GL_TEXTURE_2D);
-	}
-	else
-	{
-		std::cout << "Failed to load texture " << file_path << std::endl;
-	}
-	stbi_image_free(data);
-
-	glBindTexture(GL_TEXTURE_2D, 0);
-	return texture;
 }
 
 void process_input(GLFWwindow * window, Camera & camera)

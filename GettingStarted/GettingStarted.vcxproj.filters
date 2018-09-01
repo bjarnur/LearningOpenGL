@@ -27,6 +27,12 @@
     <ClCompile Include="camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="shader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="texture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="shader.h">
@@ -41,12 +47,15 @@
     <ClInclude Include="mouse_inputs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="texture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="fragment_shader.txt">
+    <Text Include="shaders\fragment_shader.txt">
       <Filter>Resource Files\Shaders</Filter>
     </Text>
-    <Text Include="vertex_shader.txt">
+    <Text Include="shaders\vertex_shader.txt">
       <Filter>Resource Files\Shaders</Filter>
     </Text>
   </ItemGroup>
